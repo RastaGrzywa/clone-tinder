@@ -10,7 +10,8 @@ import Cards from './model/Cards.js';
 // config
 const app = express();
 const port = process.env.PORT || 8001; 
-dotenv.config();
+dotenv.config()
+const __dirname = path.resolve();
 
 // middleware
 app.use(cors());
