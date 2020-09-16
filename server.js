@@ -12,17 +12,21 @@ const app = express();
 const port = process.env.PORT || 8001; 
 dotenv.config()
 const __dirname = path.resolve();
-console.log(process.env.DB_CONNECTION_URL);
+
+var corsOptions = {
+  origin: 'https://clone-tinder.herokuapp.com/',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 // middleware
-// app.use(cors());
+app.use(cors());
 app.use(bodyParser.json());
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
-  next();
-});
+// app.use(function (req, res, next) {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
+//   next();
+// });
 
 
 
