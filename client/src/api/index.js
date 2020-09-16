@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8001';
+axios.defaults.baseURL = 'https://clone-tinder.herokuapp.com';
 
 export const fetchData = async () => {
   try {
