@@ -16,6 +16,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
+
+
 // db config
 mongoose.connect(process.env.DB_CONNECTION_URL, {
   useNewUrlParser: true,
@@ -27,10 +29,6 @@ mongoose.connect(process.env.DB_CONNECTION_URL, {
 })
 
 // api endpoints
-app.get('/', (req, res) => {
-  res.status(200).send('hey');
-})
-
 app.get('/tinder/cards', (req, res) => {
   Cards.find({}, (err, data) => {
     if (err){
@@ -51,6 +49,15 @@ app.post('/tinder/cards', (req, res) => {
     }
   })
 })
+
+
+//production mode
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.get('*', (req, res) => {
+      res.sendfile(path.join(__dirname = 'client/build/index.html'));
+  })
+};
 
 // listener
 app.listen(port, () => {
