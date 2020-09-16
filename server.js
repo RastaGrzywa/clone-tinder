@@ -12,6 +12,7 @@ const app = express();
 const port = process.env.PORT || 8001; 
 dotenv.config()
 const __dirname = path.resolve();
+console.log(process.env.DB_CONNECTION_URL);
 
 // middleware
 // app.use(cors());
