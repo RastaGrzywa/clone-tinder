@@ -10,8 +10,7 @@ import Cards from './model/Cards.js';
 // config
 const app = express();
 const port = process.env.PORT || 8001; 
-dotenv.config()
-const __dirname = path.resolve();
+dotenv.config();
 
 // middleware
 app.use(cors());
@@ -53,26 +52,24 @@ app.post('/tinder/cards', (req, res) => {
 })
 
 
-//production mode
-if(process.env.NODE_ENV === 'production') {
-  app.use(express.static(`${__dirname}/client/build`));
-  app.get('*', (req, res) => {
-      res.sendfile(`${__dirname}/client/build/index.html`);
-  })
-};
-// //build mode
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.get('*', (req, res) => {
-    res.sendFile(`${__dirname}/client/public/index.html`);
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
+
+// //production mode
+// if(process.env.NODE_ENV === 'production') {
+//   app.use(express.static(`${__dirname}/client/build`));
+//   app.get('*', (req, res) => {
+//       res.sendfile(`${__dirname}/client/build/index.html`);
+//   })
+// };
+// // //build mode
+// app.get('*', (req, res) => {
+//     res.sendFile(`${__dirname}/client/public/index.html`);
+// });
 
 // listener
 app.listen(port, () => {
   console.log(`listen on port: ${port}`);
 })
-
-// mongodb:
-// user: main
-// pass: xqMSOEDkwfYGJf4G 
-// collection: tinder
-
-//
