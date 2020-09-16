@@ -58,6 +58,10 @@ if(process.env.NODE_ENV === 'production') {
       res.sendfile(path.join(__dirname = 'client/build/index.html'));
   })
 };
+// //build mode
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname+'/client/public/index.html'));
+});
 
 // listener
 app.listen(port, () => {
