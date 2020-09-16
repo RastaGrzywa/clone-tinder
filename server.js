@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 
 import Cards from './model/Cards.js';
 
@@ -10,6 +11,7 @@ import Cards from './model/Cards.js';
 const app = express();
 const port = process.env.PORT || 8001; 
 dotenv.config()
+const __dirname = path.resolve();
 
 // middleware
 app.use(cors());
