@@ -1,51 +1,128 @@
-import React from 'react'
-import { StateMachineProvider, createStore, useStateMachine } from "little-state-machine";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
+import React, { useState } from 'react'
+import { useStateMachine } from "little-state-machine";
 import StateMachine from "../../StateMachine";
+import { AddPhone, AddPhoneCode, AddEmail, AddFirstname, AddBirthday, AddSex } from "./Steps";
 
 import styles from './MultiStepForm.module.css';
+
+const views = [
+  "phone",
+  "phoneCode",
+  "email",
+  "firstname",
+  "birthday",
+  "sex"
+];
 
 const CurrentPage = (props) => {
   return (
     <div className={styles.pages}>
-      <div className={styles.page}>
-        <h1>Phone</h1>
-      </div>
-      <div className={styles.page}>
-        <h1>PhoneCode</h1>
-      </div>
-      <div className={styles.page}>
-        <h1>email</h1>
-      </div>
+      <AddPhone
+        newPosition={props.phonePosition}
+      />
+      <AddPhoneCode
+        newPosition={props.phoneCodePosition}
+      />
+      <AddEmail
+        newPosition={props.emailPosition}
+      />
+      <AddFirstname
+        newPosition={props.firstnamePosition}
+      />
+      <AddBirthday
+        newPosition={props.birthdayPosition}
+      />
+      <AddSex
+        newPosition={props.sexPosition}
+      />
     </div>
   );
 };
 
 const MultiStepForm = () => {
   const { state, action } = useStateMachine(StateMachine);
+  const [ phonePosition, setPhonePosition ] = useState("stepShow");
+  const [ phoneCodePosition, setPhoneCodePosition ] = useState("stepRight");
+  const [ emailPosition, setEmailPosition ] = useState("stepRight");
+  const [ firstnamePosition, setFirstnamePosition ] = useState("stepRight");
+  const [ birthdayPosition, setBirthdayPosition ] = useState("stepRight");
+  const [ sexPosition, setSexPosition ] = useState("stepRight");
 
   const onNextPage = () => {
+    if (state.registrationFormScreen.step === views.length - 1){
+      return;
+    }
+    let newScreenId = state.registrationFormScreen.step + 1
     action({ 
       registrationFormScreen: {
-        step: state.registrationFormScreen.step + 1
+        step: newScreenId
       }
     });
+    setupViews(views[newScreenId]);
   };
+  
   const onPrevPage = () => {
+    if (state.registrationFormScreen.step === 0){
+      return;
+    }
+    let newScreenId = state.registrationFormScreen.step - 1
     action({ 
       registrationFormScreen: {
-        step: state.registrationFormScreen.step - 1
+        step: newScreenId
       }
     });
+    setupViews(views[newScreenId]);
   };
+
+  const setupViews = (viewName) => {
+    switch (viewName) {
+      case "phone":
+        setPhonePosition("stepShow");
+        setPhoneCodePosition("stepRight");
+        break;
+      case "phoneCode":
+        setPhonePosition("stepLeft");
+        setPhoneCodePosition("stepShow");
+        setEmailPosition("stepRight");
+        break;
+      case "email":
+        setPhoneCodePosition("stepLeft");
+        setEmailPosition("stepShow");
+        setFirstnamePosition("stepRight");
+        break;
+      case "firstname":
+        setEmailPosition("stepLeft");
+        setFirstnamePosition("stepShow");
+        setBirthdayPosition("stepRight");
+        break;
+      case "birthday":
+        setFirstnamePosition("stepLeft");
+        setBirthdayPosition("stepShow");
+        setSexPosition("stepRight");
+        break;
+      case "sex":
+        setBirthdayPosition("stepLeft");
+        setSexPosition("stepShow");
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <div className={styles.container}>
+      <div className={styles.header}>
+        <button className={styles.backButton} onClick={() => onPrevPage()}>prev</button>
+      </div>
       <CurrentPage 
-        step={state.registrationFormScreen.step}
+        phonePosition={phonePosition}
+        phoneCodePosition={phoneCodePosition}
+        emailPosition={emailPosition}
+        firstnamePosition={firstnamePosition}
+        birthdayPosition={birthdayPosition}
+        sexPosition={sexPosition}
       />
       <div>
-        <button onClick={() => onPrevPage()}>prev</button>
         <button onClick={() => onNextPage()}>next</button>
       </div>
     </div>

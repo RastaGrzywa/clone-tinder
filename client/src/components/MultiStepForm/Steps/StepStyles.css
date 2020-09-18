@@ -1,0 +1,22 @@
+.stepShow {
+  opacity: 1;
+  transform: translateX(0%);
+}
+
+.stepLeft {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.stepRight {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.page {
+  width: 100vw;
+  height: 300px;
+  display:inline-block;
+  position: absolute;
+  transition: 600ms;
+}
