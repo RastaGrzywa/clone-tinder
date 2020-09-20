@@ -3,9 +3,10 @@
   height: 100vh;
 }
 .header{
-  width: 100vw;
-  height: 10vh;
-  border-bottom: 1px solid #c1c1c1;
+  width: calc(100% - 20px);
+  height: 65px;
+  border-bottom: 1px solid #e0e0e0;
+  margin: 0 10px;
 }
 
 .backButton {
