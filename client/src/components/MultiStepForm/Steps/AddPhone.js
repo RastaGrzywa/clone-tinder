@@ -1,76 +1,78 @@
 import React, { useState } from 'react';
-import { Select, TextField } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { makeStyles } from '@material-ui/core/styles';
+import { Search, KeyboardArrowLeft } from '@material-ui/icons';
 
 import "./StepStyles.css";
+import styles from './AddPhone.module.css'
 
-const useStyles = makeStyles({
-  root: {
-    width: 200
-  }
-});
-
-
-const AddPhone = ({ newPosition }) => {
+const AddPhone = ({ newPosition, onNextPage }) => {
   
   const [chooseCountry, setChooseCountry] = useState(false);
+  const [nextButtonActive, setNextButtonActive] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState({code: "PL",  phone: '48'});
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [filteredCountryName, setFilteredCountryName] = useState("");
 
-  const classes = useStyles();
+  
+  const handlePhoneChange = (e) => {
+    setPhoneNumber(e.target.value);
+    if (e.target.value != "") {
+      setNextButtonActive(true);
+    } else {
+      setNextButtonActive(false);
+    }
+  }
+
+  const handleNextPageButton = () => {
+    if (nextButtonActive) {
+      onNextPage();
+    }
+  }
+
+  const handleCountryChoose = (choosedCountry) => {
+    setSelectedCountry({code: choosedCountry.code,  phone: choosedCountry.phone});
+    setChooseCountry(false);
+    handlePhoneChange({target: {value : ""}});
+  }
+
+
   return (
-    <div className={`page ${newPosition}`}>
+    <div className={`${styles.page} ${newPosition}`}>
       {chooseCountry ? (
-        <h1>Choose country</h1>
-      ) : (
-      <div>
-        <h3>Mój numer to</h3>
-        <div className='phoneInputBlock'>
-          <span className="countrySelectorButton" onClick={() => setChooseCountry(true)}>{selectedCountry.code}</span>
-          <span className="coutryPhoneCode">+{selectedCountry.phone}</span>
-          <TextField 
-            classes={{
-              root: classes.root
-            }}
-            
-            InputProps={{
-              style: {
-                  height: 40,
-                  fontSize: 25,
-                  paddingLeft: 8
-              }
-            }}
-          />
+        <div className={styles.countrySearchContainer}>
+          <div className={styles.searchBox}>
+            <KeyboardArrowLeft className={styles.searchBoxButton}  style={{ fontSize: 40}} onClick={() => setChooseCountry(false)}/>
+            <div className={styles.searchField} >
+              <Search className={styles.searchInputIcon} style={{ fontSize: 25}} />
+              <input className={styles.searchInput} onChange={(e) => setFilteredCountryName(e.target.value)} type="text"/>
+            </div>
+          </div>
+          <div className={styles.countryList}>
+            {countries.filter(country => country.label.toLowerCase().includes(filteredCountryName.toLowerCase())).map( filteredCountry => (
+              <div key={filteredCountry.code} className={styles.choosableCountry} onClick={() => handleCountryChoose(filteredCountry)}>
+                <span>{filteredCountry.label}</span>
+                <span>+{filteredCountry.phone}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-      )
-      }
-        {/* <Autocomplete
-          id="country-select-demo"
-          style={{ width: 300 }}
-          options={countries}
-          classes={{
-            option: classes.option,
-          }}
-          autoHighlight
-          getOptionLabel={(option) => option.label}
-          renderOption={(option) => (
-            <React.Fragment>
-              {option.label} +{option.phone}
-            </React.Fragment>
-          )}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Choose a country"
-              variant="filled"
-              inputProps={{
-                ...params.inputProps,
-                autoComplete: 'new-password', // disable autocomplete and autofill
-              }}
-            />
-          )}
-        /> */}
+      ) : (
+        <div className={styles.addPhoneContainer}>
+          <h3>Mój numer to</h3>
+          <div className={styles.phoneInputBlock}>
+            <span className={styles.countrySelectorButton} onClick={() => setChooseCountry(true)}>{selectedCountry.code}</span>
+            <span className={styles.coutryPhoneCode}>+{selectedCountry.phone}</span>
+            <input className={styles.phoneNumber} value={phoneNumber} onChange={handlePhoneChange}></input>
+          </div>
+          <p className={styles.addPhoneText}>
+            Wybierz „Dalej”, aby otrzymać SMS-a z kodem weryfikacyjnym. 
+            Mogą obowiązywać opłaty za SMS-y i transfer danych. 
+            Za pomocą zweryfikowanego numeru telefonu możesz się zalogować.
+          </p>
+          <div className={styles.nextButtonContainer}>
+            <button className={`${styles.nextButton} ${nextButtonActive ? styles.buttonActive : null}` } onClick={() => handleNextPageButton()}>dalej</button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -78,21 +80,21 @@ const countries = [
   { code: 'AD', label: 'Andorra', phone: '376' },
   { code: 'AE', label: 'United Arab Emirates', phone: '971' },
   { code: 'AF', label: 'Afghanistan', phone: '93' },
-  { code: 'AG', label: 'Antigua and Barbuda', phone: '1-268' },
-  { code: 'AI', label: 'Anguilla', phone: '1-264' },
+  { code: 'AG', label: 'Antigua and Barbuda', phone: '1' },
+  { code: 'AI', label: 'Anguilla', phone: '1' },
   { code: 'AL', label: 'Albania', phone: '355' },
   { code: 'AM', label: 'Armenia', phone: '374' },
   { code: 'AO', label: 'Angola', phone: '244' },
   { code: 'AQ', label: 'Antarctica', phone: '672' },
   { code: 'AR', label: 'Argentina', phone: '54' },
-  { code: 'AS', label: 'American Samoa', phone: '1-684' },
+  { code: 'AS', label: 'American Samoa', phone: '1' },
   { code: 'AT', label: 'Austria', phone: '43' },
   { code: 'AU', label: 'Australia', phone: '61', suggested: true },
   { code: 'AW', label: 'Aruba', phone: '297' },
   { code: 'AX', label: 'Alland Islands', phone: '358' },
   { code: 'AZ', label: 'Azerbaijan', phone: '994' },
   { code: 'BA', label: 'Bosnia and Herzegovina', phone: '387' },
-  { code: 'BB', label: 'Barbados', phone: '1-246' },
+  { code: 'BB', label: 'Barbados', phone: '1' },
   { code: 'BD', label: 'Bangladesh', phone: '880' },
   { code: 'BE', label: 'Belgium', phone: '32' },
   { code: 'BF', label: 'Burkina Faso', phone: '226' },
@@ -101,11 +103,11 @@ const countries = [
   { code: 'BI', label: 'Burundi', phone: '257' },
   { code: 'BJ', label: 'Benin', phone: '229' },
   { code: 'BL', label: 'Saint Barthelemy', phone: '590' },
-  { code: 'BM', label: 'Bermuda', phone: '1-441' },
+  { code: 'BM', label: 'Bermuda', phone: '1' },
   { code: 'BN', label: 'Brunei Darussalam', phone: '673' },
   { code: 'BO', label: 'Bolivia', phone: '591' },
   { code: 'BR', label: 'Brazil', phone: '55' },
-  { code: 'BS', label: 'Bahamas', phone: '1-242' },
+  { code: 'BS', label: 'Bahamas', phone: '1' },
   { code: 'BT', label: 'Bhutan', phone: '975' },
   { code: 'BV', label: 'Bouvet Island', phone: '47' },
   { code: 'BW', label: 'Botswana', phone: '267' },
@@ -133,8 +135,8 @@ const countries = [
   { code: 'DE', label: 'Germany', phone: '49', suggested: true },
   { code: 'DJ', label: 'Djibouti', phone: '253' },
   { code: 'DK', label: 'Denmark', phone: '45' },
-  { code: 'DM', label: 'Dominica', phone: '1-767' },
-  { code: 'DO', label: 'Dominican Republic', phone: '1-809' },
+  { code: 'DM', label: 'Dominica', phone: '1' },
+  { code: 'DO', label: 'Dominican Republic', phone: '1' },
   { code: 'DZ', label: 'Algeria', phone: '213' },
   { code: 'EC', label: 'Ecuador', phone: '593' },
   { code: 'EE', label: 'Estonia', phone: '372' },
@@ -151,7 +153,7 @@ const countries = [
   { code: 'FR', label: 'France', phone: '33', suggested: true },
   { code: 'GA', label: 'Gabon', phone: '241' },
   { code: 'GB', label: 'United Kingdom', phone: '44' },
-  { code: 'GD', label: 'Grenada', phone: '1-473' },
+  { code: 'GD', label: 'Grenada', phone: '1' },
   { code: 'GE', label: 'Georgia', phone: '995' },
   { code: 'GF', label: 'French Guiana', phone: '594' },
   { code: 'GG', label: 'Guernsey', phone: '44' },
@@ -165,7 +167,7 @@ const countries = [
   { code: 'GR', label: 'Greece', phone: '30' },
   { code: 'GS', label: 'South Georgia and the South Sandwich Islands', phone: '500' },
   { code: 'GT', label: 'Guatemala', phone: '502' },
-  { code: 'GU', label: 'Guam', phone: '1-671' },
+  { code: 'GU', label: 'Guam', phone: '1' },
   { code: 'GW', label: 'Guinea-Bissau', phone: '245' },
   { code: 'GY', label: 'Guyana', phone: '592' },
   { code: 'HK', label: 'Hong Kong', phone: '852' },
@@ -185,7 +187,7 @@ const countries = [
   { code: 'IS', label: 'Iceland', phone: '354' },
   { code: 'IT', label: 'Italy', phone: '39' },
   { code: 'JE', label: 'Jersey', phone: '44' },
-  { code: 'JM', label: 'Jamaica', phone: '1-876' },
+  { code: 'JM', label: 'Jamaica', phone: '1' },
   { code: 'JO', label: 'Jordan', phone: '962' },
   { code: 'JP', label: 'Japan', phone: '81', suggested: true },
   { code: 'KE', label: 'Kenya', phone: '254' },
@@ -193,15 +195,15 @@ const countries = [
   { code: 'KH', label: 'Cambodia', phone: '855' },
   { code: 'KI', label: 'Kiribati', phone: '686' },
   { code: 'KM', label: 'Comoros', phone: '269' },
-  { code: 'KN', label: 'Saint Kitts and Nevis', phone: '1-869' },
+  { code: 'KN', label: 'Saint Kitts and Nevis', phone: '1' },
   { code: 'KP', label: "Korea, Democratic People's Republic of", phone: '850' },
   { code: 'KR', label: 'Korea, Republic of', phone: '82' },
   { code: 'KW', label: 'Kuwait', phone: '965' },
-  { code: 'KY', label: 'Cayman Islands', phone: '1-345' },
+  { code: 'KY', label: 'Cayman Islands', phone: '1' },
   { code: 'KZ', label: 'Kazakhstan', phone: '7' },
   { code: 'LA', label: "Lao People's Democratic Republic", phone: '856' },
   { code: 'LB', label: 'Lebanon', phone: '961' },
-  { code: 'LC', label: 'Saint Lucia', phone: '1-758' },
+  { code: 'LC', label: 'Saint Lucia', phone: '1' },
   { code: 'LI', label: 'Liechtenstein', phone: '423' },
   { code: 'LK', label: 'Sri Lanka', phone: '94' },
   { code: 'LR', label: 'Liberia', phone: '231' },
@@ -217,15 +219,15 @@ const countries = [
   { code: 'MF', label: 'Saint Martin (French part)', phone: '590' },
   { code: 'MG', label: 'Madagascar', phone: '261' },
   { code: 'MH', label: 'Marshall Islands', phone: '692' },
-  { code: 'MK', label: 'Macedonia, the Former Yugoslav Republic of', phone: '389' },
+  { code: 'MK', label: 'Macedonia', phone: '389' },
   { code: 'ML', label: 'Mali', phone: '223' },
   { code: 'MM', label: 'Myanmar', phone: '95' },
   { code: 'MN', label: 'Mongolia', phone: '976' },
   { code: 'MO', label: 'Macao', phone: '853' },
-  { code: 'MP', label: 'Northern Mariana Islands', phone: '1-670' },
+  { code: 'MP', label: 'Northern Mariana Islands', phone: '1' },
   { code: 'MQ', label: 'Martinique', phone: '596' },
   { code: 'MR', label: 'Mauritania', phone: '222' },
-  { code: 'MS', label: 'Montserrat', phone: '1-664' },
+  { code: 'MS', label: 'Montserrat', phone: '1' },
   { code: 'MT', label: 'Malta', phone: '356' },
   { code: 'MU', label: 'Mauritius', phone: '230' },
   { code: 'MV', label: 'Maldives', phone: '960' },
@@ -284,10 +286,10 @@ const countries = [
   { code: 'SS', label: 'South Sudan', phone: '211' },
   { code: 'ST', label: 'Sao Tome and Principe', phone: '239' },
   { code: 'SV', label: 'El Salvador', phone: '503' },
-  { code: 'SX', label: 'Sint Maarten (Dutch part)', phone: '1-721' },
+  { code: 'SX', label: 'Sint Maarten (Dutch part)', phone: '1' },
   { code: 'SY', label: 'Syrian Arab Republic', phone: '963' },
   { code: 'SZ', label: 'Swaziland', phone: '268' },
-  { code: 'TC', label: 'Turks and Caicos Islands', phone: '1-649' },
+  { code: 'TC', label: 'Turks and Caicos Islands', phone: '1' },
   { code: 'TD', label: 'Chad', phone: '235' },
   { code: 'TF', label: 'French Southern Territories', phone: '262' },
   { code: 'TG', label: 'Togo', phone: '228' },
@@ -299,7 +301,7 @@ const countries = [
   { code: 'TN', label: 'Tunisia', phone: '216' },
   { code: 'TO', label: 'Tonga', phone: '676' },
   { code: 'TR', label: 'Turkey', phone: '90' },
-  { code: 'TT', label: 'Trinidad and Tobago', phone: '1-868' },
+  { code: 'TT', label: 'Trinidad and Tobago', phone: '1' },
   { code: 'TV', label: 'Tuvalu', phone: '688' },
   { code: 'TW', label: 'Taiwan, Province of China', phone: '886' },
   { code: 'TZ', label: 'United Republic of Tanzania', phone: '255' },
@@ -309,10 +311,10 @@ const countries = [
   { code: 'UY', label: 'Uruguay', phone: '598' },
   { code: 'UZ', label: 'Uzbekistan', phone: '998' },
   { code: 'VA', label: 'Holy See (Vatican City State)', phone: '379' },
-  { code: 'VC', label: 'Saint Vincent and the Grenadines', phone: '1-784' },
+  { code: 'VC', label: 'Saint Vincent and the Grenadines', phone: '1' },
   { code: 'VE', label: 'Venezuela', phone: '58' },
-  { code: 'VG', label: 'British Virgin Islands', phone: '1-284' },
-  { code: 'VI', label: 'US Virgin Islands', phone: '1-340' },
+  { code: 'VG', label: 'British Virgin Islands', phone: '1' },
+  { code: 'VI', label: 'US Virgin Islands', phone: '1' },
   { code: 'VN', label: 'Vietnam', phone: '84' },
   { code: 'VU', label: 'Vanuatu', phone: '678' },
   { code: 'WF', label: 'Wallis and Futuna', phone: '681' },

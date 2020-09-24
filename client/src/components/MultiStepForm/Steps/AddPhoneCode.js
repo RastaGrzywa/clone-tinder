@@ -5,7 +5,7 @@ import "./StepStyles.css";
 const AddPhoneCode = ({ newPosition }) => {
   return (
     <div className={`page ${newPosition}`}>
-      <h1>PhoneCode</h1>
+      <h3>Mój kod to</h3>
     </div>
   )
 }
