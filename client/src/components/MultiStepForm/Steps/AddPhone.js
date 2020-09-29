@@ -15,7 +15,7 @@ const AddPhone = ({ newPosition, onNextPage }) => {
   
   const handlePhoneChange = (e) => {
     setPhoneNumber(e.target.value);
-    if (e.target.value != "") {
+    if (e.target.value !== "") {
       setNextButtonActive(true);
     } else {
       setNextButtonActive(false);
@@ -68,8 +68,8 @@ const AddPhone = ({ newPosition, onNextPage }) => {
             Mogą obowiązywać opłaty za SMS-y i transfer danych. 
             Za pomocą zweryfikowanego numeru telefonu możesz się zalogować.
           </p>
-          <div className={styles.nextButtonContainer}>
-            <button className={`${styles.nextButton} ${nextButtonActive ? styles.buttonActive : null}` } onClick={() => handleNextPageButton()}>dalej</button>
+          <div className="nextButtonContainer">
+            <button className={`nextButton ${nextButtonActive ? "buttonActive" : null}` } onClick={() => handleNextPageButton()}>dalej</button>
           </div>
         </div>
       )}

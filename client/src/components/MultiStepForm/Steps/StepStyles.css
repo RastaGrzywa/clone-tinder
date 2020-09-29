@@ -29,135 +29,81 @@
   padding-top: 15px;
 }
 
-.phoneInputBlock {
+
+.nextButtonContainer {
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: stretch;
-  margin-top: 30px;
 }
 
-.countrySelectorButton {
-  width: 50px;
-  font-size: 25px;
-  border-bottom: 1px solid #818181;
-  justify-content: center;
-  align-items: center;
-  line-height: 38px;
-  text-align: left;
-  margin-right: 10px;
-  position: relative;
-  cursor: pointer;
-}
-
-.countrySelectorButton::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 6px solid #bdbdbd;
-  clear: both;
-  top: 16px;
-  right: 5px;
-}
-
-.coutryPhoneCode {
-  width: 50px;
-  font-size: 25px;
-  border-bottom: 1px solid #818181;
-  justify-content: center;
-  align-items: center;
-  line-height: 38px;
-  text-align: left;
-  cursor: pointer;
-}
-
-.phoneNumber {
-  width: 200px;
-  font-size: 25px;
-  background: none;
+.nextButton {
+  width: 320px;
+  height: 55px;
   border: none;
-  border-bottom: 1px solid #818181;
+  border-radius: 30px;
+  margin-top: 20px;
+  color: white;
+  background-color: #e0e4e9;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
 }
 
-.addPhoneText {
-  width: 430px;
-  margin: 20px auto;
-  word-break: normal;
-  white-space: normal;
-  font-size: 0.75rem;
-  text-align: left;
-  color: #818181;
-  line-height: 16px;
-}
-
-
-.countrySearchContainer {
+.chooseButtonContainer {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
-}
-
-
-.searchBox {
-  display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
-  margin: 5px 0; 
 }
 
-.searchBoxButton {
-  margin-left: 2px;
-  width: 30px;
-  height: 50px;
-  color: #E3EBF2;
-  stroke: #E3EBF2;
-  stroke-width: 2px;
-  cursor: pointer;
-}
-
-.searchField {
-  position: relative;
-  flex: 1;
-  display: flex
-}
-
-.searchInputIcon {
-  position: absolute;
-  left: 8px;
-  top: 2px;
-}
-
-.searchInput {
-  height: 25px;
-  width: 100%;
-  border: none;
-  background-color: #F5F7FA;
-  border-radius: 8px;
-  margin-right: 10px;
-  padding-left: 40px;
-  font-size: 15px;
-}
-
-.countryList {
-  height: calc(100vh - 130px);
-  overflow: scroll;
-  flex-grow : 1;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.choosableCountry {
-  width: calc(100% - 60px);
-  height: 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  font-size: 15px;
-  font-weight: 600;
+.simpleButton {
+  width: 300px;
+  height: 45px;
+  border: 1px solid #818181;
+  border-radius: 23px;
+  margin-top: 20px;
   color: #818181;
+  background-color: white;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
   cursor: pointer;
-  margin: 8px auto;
-  border-top: 1px solid #e0e0e0;
+
+  background: no-repeat;
+  background-size: 100% 100%;
+  background-position-y: 45px;
+  background-image: linear-gradient(to right, #003cff, #00cdff);
+  
+  moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
 }
 
+.simpleButton:hover {
+  background-position: 0;
+  moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+  color: white;
+}
+
+.buttonActive {
+  background-image: linear-gradient(262deg, #003cff, #00cdff);
+  cursor: pointer;
+}
+
+.textInput {
+  width: 250px;
+  height: 35px;
+  margin: 40px auto;
+  border: none;
+  border-bottom: 1px solid #818181;
+  font-size: 20px;
+  font-family: 'Montserrat', sans-serif;
+}

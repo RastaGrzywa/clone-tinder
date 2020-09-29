@@ -167,28 +167,4 @@
   background: #F5F7FA;;
 }
 
-.nextButtonContainer {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.nextButton {
-  width: 320px;
-  height: 55px;
-  border: none;
-  border-radius: 30px;
-  margin-top: 20px;
-  color: white;
-  background-color: #e0e4e9;
-  text-transform: uppercase;
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: 1px;
-}
-
-.buttonActive {
-  background-image: linear-gradient(262deg, #ff7854, #fd267d);
-  cursor: pointer;
-}
 

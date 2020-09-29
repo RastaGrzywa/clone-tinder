@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useStateMachine } from "little-state-machine";
 import StateMachine from "../../StateMachine";
 import { AddPhone, AddPhoneCode, AddEmail, AddFirstname, AddBirthday, AddSex } from "./Steps";
-import { HighlightOff, KeyboardArrowLeft, Whatshot } from '@material-ui/icons';
+import { HighlightOff, KeyboardArrowLeft } from '@material-ui/icons';
 
 import styles from './MultiStepForm.module.css';
 import logo from './TunderLogo256.png';
@@ -41,19 +41,19 @@ const CurrentPage = ( props ) => {
       />
       <AddSex
         newPosition={props.sexPosition}
-        onNextPage={props.onNextPage}
+        onNextPage={props.onFormEnd}
       />
     </div>
   );
 };
 
-const MultiStepForm = () => {
+const MultiStepForm = ( { showMainScreen } ) => {
   const { state, action } = useStateMachine(StateMachine);
   const [ phonePosition, setPhonePosition ] = useState("stepLeft");
-  const [ phoneCodePosition, setPhoneCodePosition ] = useState("stepShow");
-  const [ emailPosition, setEmailPosition ] = useState("stepRight");
-  const [ firstnamePosition, setFirstnamePosition ] = useState("stepRight");
-  const [ birthdayPosition, setBirthdayPosition ] = useState("stepRight");
+  const [ phoneCodePosition, setPhoneCodePosition ] = useState("stepLeft");
+  const [ emailPosition, setEmailPosition ] = useState("stepLeft");
+  const [ firstnamePosition, setFirstnamePosition ] = useState("stepLeft");
+  const [ birthdayPosition, setBirthdayPosition ] = useState("stepShow");
   const [ sexPosition, setSexPosition ] = useState("stepRight");
 
   const onNextPage = () => {
@@ -117,12 +117,15 @@ const MultiStepForm = () => {
     }
   }
 
+  const onFormEnd = () => {
+    showMainScreen();
+  }
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <KeyboardArrowLeft className={`${styles.backButton} ${state.registrationFormScreen.step == 0 ? styles.notVisible : ""}`} onClick={() => onPrevPage()} style={{ fontSize: 38 }} />
-        <img src={logo} className={styles.thunderLogo} />
+        <KeyboardArrowLeft className={`${styles.backButton} ${state.registrationFormScreen.step === 0 ? styles.notVisible : ""}`} onClick={() => onPrevPage()} style={{ fontSize: 38 }} />
+        <img src={logo} className={styles.thunderLogo} alt="logo"/>
         <HighlightOff className={styles.exitButton} onClick={() => onPrevPage()} style={{ fontSize: 38 }} />
       </div>
         <CurrentPage 
@@ -133,6 +136,7 @@ const MultiStepForm = () => {
           birthdayPosition={birthdayPosition}
           sexPosition={sexPosition}
           onNextPage={onNextPage}
+          onFormEnd={onFormEnd}
         />
     </div>
   )

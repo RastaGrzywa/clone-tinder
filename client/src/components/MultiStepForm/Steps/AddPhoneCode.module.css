@@ -1,0 +1,40 @@
+.inputContainer {
+  width: 100%;
+  display: flex;
+  margin-top: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.codeInput {
+  width: 35px;
+  font-size: 16px;
+  margin: 0 5px;
+  border: none; 
+  border-bottom: 1px solid black;
+  text-align: center;
+  padding-bottom: 5px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.sendSMSAgainContainer {
+  width: calc(100% - 40px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 10px;
+  margin: 30px 20px;
+  text-underline-offset: 3px;
+}
+
+.sendSMSAgainButton { 
+  color: #2180e8;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.sendSMSAgainButton:hover {
+  text-decoration: underline;
+}

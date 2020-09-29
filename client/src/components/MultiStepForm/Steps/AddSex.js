@@ -2,10 +2,23 @@ import React from 'react';
 
 import "./StepStyles.css";
 
-const AddSex = ({ newPosition }) => {
+const AddSex = ({ newPosition, onNextPage }) => {
+  
+  const handleMenOption = () => {
+    onNextPage();
+  }
+  const handleWomenOption = () => {
+    onNextPage();
+  }
+  
   return (
     <div className={`page ${newPosition}`}>
-      <h1>I am</h1>
+      <h3>Jestem</h3>
+      
+      <div className="chooseButtonContainer">
+        <button className={`simpleButton`} onClick={() => handleMenOption()}>Mężczyzną</button>
+        <button className={`simpleButton`} onClick={() => handleWomenOption()}>Kobietą</button>
+      </div>
     </div>
   )
 }
