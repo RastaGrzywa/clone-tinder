@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useStateMachine } from "little-state-machine";
+import StateMachine from "../../../StateMachine";
 import { Search, KeyboardArrowLeft } from '@material-ui/icons';
 
 import "./StepStyles.css";
@@ -6,6 +8,7 @@ import styles from './AddPhone.module.css'
 
 const AddPhone = ({ newPosition, onNextPage }) => {
   
+  const { state, action } = useStateMachine(StateMachine);
   const [chooseCountry, setChooseCountry] = useState(false);
   const [nextButtonActive, setNextButtonActive] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState({code: "PL",  phone: '48'});
@@ -24,6 +27,11 @@ const AddPhone = ({ newPosition, onNextPage }) => {
 
   const handleNextPageButton = () => {
     if (nextButtonActive) {
+      action({ 
+        userRegistrationDetails: {
+          phone: phoneNumber
+        }
+      });
       onNextPage();
     }
   }

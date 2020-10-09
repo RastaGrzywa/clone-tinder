@@ -47,14 +47,15 @@ const CurrentPage = ( props ) => {
   );
 };
 
-const MultiStepForm = ( { showMainScreen } ) => {
+const MultiStepForm = ( { showMainScreen, handleCloseForm } ) => {
   const { state, action } = useStateMachine(StateMachine);
-  const [ phonePosition, setPhonePosition ] = useState("stepLeft");
-  const [ phoneCodePosition, setPhoneCodePosition ] = useState("stepLeft");
-  const [ emailPosition, setEmailPosition ] = useState("stepLeft");
-  const [ firstnamePosition, setFirstnamePosition ] = useState("stepLeft");
-  const [ birthdayPosition, setBirthdayPosition ] = useState("stepShow");
+  const [ phonePosition, setPhonePosition ] = useState("stepShow");
+  const [ phoneCodePosition, setPhoneCodePosition ] = useState("stepRight");
+  const [ emailPosition, setEmailPosition ] = useState("stepRight");
+  const [ firstnamePosition, setFirstnamePosition ] = useState("stepRight");
+  const [ birthdayPosition, setBirthdayPosition ] = useState("stepRight");
   const [ sexPosition, setSexPosition ] = useState("stepRight");
+
 
   const onNextPage = () => {
     if (state.registrationFormScreen.step === views.length - 1){
@@ -115,9 +116,22 @@ const MultiStepForm = ( { showMainScreen } ) => {
       default:
         break;
     }
-  }
+  };
 
+  const closeForm = () => {
+    action({ 
+      registrationFormScreen: {
+        step: 0
+      }
+    });
+    handleCloseForm();
+  }
   const onFormEnd = () => {
+    action({ 
+      registrationFormScreen: {
+        step: 0
+      }
+    });
     showMainScreen();
   }
 
@@ -126,7 +140,7 @@ const MultiStepForm = ( { showMainScreen } ) => {
       <div className={styles.header}>
         <KeyboardArrowLeft className={`${styles.backButton} ${state.registrationFormScreen.step === 0 ? styles.notVisible : ""}`} onClick={() => onPrevPage()} style={{ fontSize: 38 }} />
         <img src={logo} className={styles.thunderLogo} alt="logo"/>
-        <HighlightOff className={styles.exitButton} onClick={() => onPrevPage()} style={{ fontSize: 38 }} />
+        <HighlightOff className={styles.exitButton} onClick={() => closeForm()} style={{ fontSize: 38 }} />
       </div>
         <CurrentPage 
           phonePosition={phonePosition}

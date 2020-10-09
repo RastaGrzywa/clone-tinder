@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { useStateMachine } from "little-state-machine";
+import StateMachine from "../../../StateMachine";
 
 import "./StepStyles.css";
 import styles from './AddPhoneCode.module.css';
 
-const AddPhoneCode = ({ newPosition, onNextPage, providedPhone }) => {
+const AddPhoneCode = ({ newPosition, onNextPage }) => {
 
   const [nextButtonActive, setNextButtonActive] = useState(false);
+  const { state, action } = useStateMachine(StateMachine);
   const inputRefs = Array(6).fill(React.createRef());
 
   const handleNextAfterEdit = (index) => {
@@ -60,7 +63,7 @@ const AddPhoneCode = ({ newPosition, onNextPage, providedPhone }) => {
         }
       </div>
       <div className={styles.sendSMSAgainContainer}>
-        <p>providedPhone</p>
+        <p>{state.userRegistrationDetails.phone}</p>
         <p className={styles.sendSMSAgainButton}>Wyślij ponownie</p>
       </div>
       <div className="nextButtonContainer">

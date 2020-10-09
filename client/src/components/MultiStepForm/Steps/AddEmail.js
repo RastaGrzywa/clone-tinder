@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { useStateMachine } from "little-state-machine";
+import StateMachine from "../../../StateMachine";
 
 import "./StepStyles.css";
 
 const AddEmail = ({ newPosition, onNextPage}) => {
 
+  const { state, action } = useStateMachine(StateMachine);
   const [nextButtonActive, setNextButtonActive] = useState(false);
+  const [email, setEmail] = useState("");
   
   const handleEmailChange = (e) => {
     if (validateEmail(e.target.value)){
@@ -12,6 +16,7 @@ const AddEmail = ({ newPosition, onNextPage}) => {
     } else {
       setNextButtonActive(false);
     }
+    setEmail(e.target.value);
   }
 
   const validateEmail = (email) => {
@@ -21,6 +26,12 @@ const AddEmail = ({ newPosition, onNextPage}) => {
   
   const handleNextPageButton = () => {
     if (nextButtonActive) {
+      action({ 
+        userRegistrationDetails: {
+          ...state.userRegistrationDetails,
+          email: email
+        }
+      });
       onNextPage();
     }
   }
